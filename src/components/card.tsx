@@ -8,7 +8,7 @@ const Card = ({avatar, order, info, id}: Data) =>{
       style={{flexDirection: 'row'}}
     >
       <Image
-        style={{width: 50,height: 50, marginRight: 10}}
+        style={{width: 150,height: 150, marginRight: 10}}
         source={{
           uri: `${avatar}`,
         }}/>

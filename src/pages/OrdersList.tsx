@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, ScrollView, Text, Touchable, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Data, baseUrl } from '../api/api';
 import Card from '../components/card';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App';
 export { baseUrl } from '../api/api';
 
-const OrderList = () => {
+type Props = NativeStackScreenProps<RootStackParamList, "OrderList", "MyStack">;
+
+const OrderList = ({ navigation}: Props) => {
   const [result, setResult] = useState<[Data]>();
   useEffect(() => {
     fetch(`${baseUrl}`)
@@ -24,25 +28,36 @@ const OrderList = () => {
         console.log(err.message);
       });
   }, [baseUrl, result]);
+
   return (
-    <SafeAreaView style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+    <View>
       <ScrollView>
-            <FlatList 
-              data={result}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {}}
-                  style={{padding: 10, margin: 10, borderColor: 'black', borderRadius: 10, borderWidth: 1, width: 150, flexDirection: 'row'}}
-                >
-                  <Card 
-                    avatar={item.avatar} order={item.order} info={item.info} key={item.id} id={item.id} />
-                </TouchableOpacity>
-              )}
-              // horizontal
-            >
-            </FlatList>
+        <View style={{alignItems: 'center'}}>
+          {result &&
+            result.map((data) => (
+              <TouchableOpacity 
+                key={data.id}
+                onPress={() => {navigation.navigate('OrderEvaluation', {orderId: data.id})}}
+                style={{
+                  padding: 10,
+                  margin: 10,
+                  borderColor: 'black',
+                  borderRadius: 10,
+                  borderWidth: 1,
+                }}
+              >
+                <Card 
+                  avatar={data.avatar}
+                  order={data.order}
+                  info={data.info}
+                  id={data.id}
+                />
+              </TouchableOpacity>
+            ))
+          }
+        </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   )
 }
 

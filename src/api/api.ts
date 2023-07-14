@@ -10,14 +10,19 @@ export interface Data {
 }
 export interface Criteria {
   liked: {
-    id: string;
     text: string;
+    id?: string;
   };
   noLiked: {
-    id: string;
     text: string;
+    id?: string;
   };
   id: string;
+}
+
+export interface Liked {
+  text: string;
+  id?: string;
 }
 export interface UpdateProps {
   id: number;

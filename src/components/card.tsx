@@ -1,12 +1,9 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
 import { Data } from '../api/api';
-// import { useAppSelector } from '../store/store';
 import Stars from './stars';
 
 const Card = ({ avatar, order, info, id, grade }: Data) => {
-  // const orders = useAppSelector((state) => state.orders.orders);
-  // console.log(orders)
   return (
     <View key={id} style={{ flexDirection: 'row', width: 270 }}>
       <Image

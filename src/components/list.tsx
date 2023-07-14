@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
-// import CheckBox from '@react-native-community/checkbox';
-// import { Criteria, criteriaUrl } from '../api/api';
+import { View, FlatList, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, useAppSelector } from '../store/store';
 import { getList } from '../store/reducers/listSlice';
+import CheckBox from './checkBox';
+import { Criteria } from '../api/api';
 
-type Props = {
+export type Props = {
   grade: number | undefined;
 };
 
@@ -14,34 +14,20 @@ const List = ({ grade }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const list = useAppSelector((state) => state.list.list);
 
-  // const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
-  // const [result, setResult] = useState<Criteria>();
-  // const [isSelected, setSelection] = useState(false);
-
   useEffect(() => {
     dispatch(getList());
   }, []);
+
+  const renderItem = ({ item }: { item: Criteria }) => (
+    <View style={{ flexDirection: 'row' }}>
+      <CheckBox />
+      <Text>{grade! < 4 ? `${item.noLiked.text}` : `${item.liked.text}`}</Text>
+    </View>
+  );
+
   return (
     <View>
-      <ul>
-        {list.map((item) =>
-          grade! < 4 ? (
-            // <View>
-            //   <CheckBox
-            //     key={item.id}
-            //     disabled={false}
-            //     value={toggleCheckBox}
-            //     onValueChange={(newValue) => setToggleCheckBox(newValue)}
-            //   />
-            //   <Text>{item.noLiked.text}</Text>
-            // </View>
-            <li key={item.id}>{item.noLiked.text}</li>
-          ) : (
-            <li key={item.id}>{item.liked.text}</li>
-          )
-        )}
-      </ul>
+      <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} />
     </View>
   );
 };

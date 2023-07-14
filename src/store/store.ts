@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
-import orderSlice from "./reducers/gradeSlice";
+import orderSlice from "./reducers/orderSlice";
+import listSlice from "./reducers/listSlice";
 
 export const store = configureStore({
   reducer: {
-    orders: orderSlice
+    orders: orderSlice,
+    list: listSlice,
   },
 });
 

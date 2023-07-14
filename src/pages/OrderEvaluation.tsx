@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import Stars from '../components/stars';
-import { useAppSelector } from '../store/store';
+import { AppDispatch, useAppSelector } from '../store/store';
 import List from '../components/list';
-import { Data, baseUrl, createGrade } from '../api/api';
+import { updateOrder } from '../api/api';
 import { RootStackParamList } from '../../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useDispatch } from 'react-redux';
+import { getOrders, setOrders } from '../store/reducers/orderSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, "OrderEvaluation", "MyStack">;
 
 const OrderEvaluation = ({ route }: Props) => {
-  console.log(route.params.orderId);
+  const orderId = +route.params.orderId;
+  const dispatch = useDispatch<AppDispatch>();
+  const orders = useAppSelector(state => state.orders.orders);
 
-  const [grade, setGrade] = useState<number>();
+  const [grade, setGrade] = useState<number | undefined>(orders[orderId-1].grade);
   
   let title = 'Поставьте оценку!'
   if (grade) {
@@ -21,7 +25,7 @@ const OrderEvaluation = ({ route }: Props) => {
 
   const buttonPut = async () => {
     console.log('click');
-    await createGrade({
+    await updateOrder(orderId, {
       grade: grade,
     });
   }
@@ -33,8 +37,8 @@ const OrderEvaluation = ({ route }: Props) => {
   return (
     <View style={{alignItems: 'center', padding: 15}}>
       <Text> {title} </Text>
-      <Stars gradeHandler={gradeHandle} grade={grade}/>
-      <List />
+      <Stars gradeHandler={gradeHandle} grade={grade} size={50}/>
+      {grade && <List grade={grade} />}
       <Button
         onPress={buttonPut}
         title="Отправить"

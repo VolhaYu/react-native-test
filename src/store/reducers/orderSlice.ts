@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { Data, baseUrl } from '../../api/api';
+import { Data, UpdateProps, baseUrl, updateOrder } from '../../api/api';
 
 interface State {
   orders: Data[];
@@ -15,8 +15,9 @@ export const getOrders = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
   const res = await fetch(`${baseUrl}`);
   const data: Data[] = await res.json();
+  console.log(data);
   dispatch(setOrders(data));
-})
+});
 
 export const orderSlice = createSlice({
   name: 'orders',
@@ -24,13 +25,13 @@ export const orderSlice = createSlice({
   reducers: {
     setOrders: (state, action) => {
       state.orders = action.payload;
-    }
+    },
   },
-  extraReducers: {
-    [getOrders.pending.type]: () => console.log('pending'),
-    [getOrders.fulfilled.type]: () => console.log('fulfilled'),
-    [getOrders.rejected.type]: () => console.log('rejected'),
-  }
+  // extraReducers: {
+  //   [getOrders.pending.type]: () => console.log('pending'),
+  //   [getOrders.fulfilled.type]: () => console.log('fulfilled'),
+  //   [getOrders.rejected.type]: () => console.log('rejected'),
+  // }
 });
 
 export const { setOrders } = orderSlice.actions;

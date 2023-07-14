@@ -21,9 +21,9 @@ export interface Criteria {
 }
 export interface UpdateProps {
   id: number;
-  body: {};
+  body: object;
 }
-export const updateOrder = async (id: number, body: {}) => {
+export const updateOrder = async (id: number, body: object) => {
   const response = await fetch(`${baseUrl}/${id}`, {
     method: 'PUT',
     headers: {
@@ -32,4 +32,5 @@ export const updateOrder = async (id: number, body: {}) => {
     body: JSON.stringify(body),
   });
   const updOrder: Data = await response.json();
+  return updOrder;
 };

@@ -1,6 +1,5 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { Data, UpdateProps, baseUrl, updateOrder } from '../../api/api';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Data, baseUrl } from '../../api/api';
 
 interface State {
   orders: Data[];
@@ -10,9 +9,7 @@ const initialState: State = {
   orders: [],
 };
 
-export const getOrders = createAsyncThunk(
-  'orders/getOrders',
-  async (_, { rejectWithValue, dispatch }) => {
+export const getOrders = createAsyncThunk('orders/getOrders', async (_, { dispatch }) => {
   const res = await fetch(`${baseUrl}`);
   const data: Data[] = await res.json();
   console.log(data);

@@ -7,6 +7,9 @@ export interface Data {
   info: string;
   order: string;
   grade?: number;
+  feedback?: {
+    grade: number;
+  };
 }
 export interface Criteria {
   liked: {
@@ -20,10 +23,6 @@ export interface Criteria {
   id: string;
 }
 
-export interface Liked {
-  text: string;
-  id?: string;
-}
 export interface UpdateProps {
   id: number;
   body: object;

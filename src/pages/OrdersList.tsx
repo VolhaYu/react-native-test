@@ -6,7 +6,6 @@ import { RootStackParamList } from '../../App';
 import { useDispatch } from 'react-redux';
 import { getOrders } from '../store/reducers/orderSlice';
 import { AppDispatch, useAppSelector } from '../store/store';
-// import { updateOrder } from '../api/api';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'OrderList', 'MyStack'>;
 

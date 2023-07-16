@@ -21,7 +21,7 @@ const Stars = ({ gradeHandler, grade, size }: Props) => {
     return color;
   };
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
       {numberStars.map((item, i) => (
         <TouchableOpacity key={i} onPress={() => gradeHandler!(item)}>
           <Ionicons name="star" size={size} color={colorHendler(item)} />

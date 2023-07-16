@@ -12,7 +12,7 @@ const initialState: State = {
 export const getOrders = createAsyncThunk('orders/getOrders', async (_, { dispatch }) => {
   const res = await fetch(`${baseUrl}`);
   const data: Data[] = await res.json();
-  console.log(data);
+  // console.log(data);
   dispatch(setOrders(data));
 });
 

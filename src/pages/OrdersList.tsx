@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, View, Text, SafeAreaView } from 'react-native';
 import Card from '../components/card';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
@@ -19,7 +19,7 @@ const OrderList = ({ navigation }: Props) => {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View style={{ alignItems: 'center' }}>
           <>
@@ -46,7 +46,7 @@ const OrderList = ({ navigation }: Props) => {
             ))}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

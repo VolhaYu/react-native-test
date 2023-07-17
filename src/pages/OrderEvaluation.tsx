@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import Stars from '../components/stars';
 import { AppDispatch, useAppSelector } from '../store/store';
 import List from '../components/list';
-import { updateOrder } from '../api/api';
 import { RootStackParamList } from '../../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { getOrders } from '../store/reducers/orderSlice';
+import { getOrders, putFeedback } from '../store/reducers/orderSlice';
 import { useDispatch } from 'react-redux';
 import { clearFeedback } from '../store/reducers/listSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'OrderEvaluation', 'MyStack'>;
 
-const OrderEvaluation = ({ route }: Props) => {
+const OrderEvaluation = ({ navigation, route }: Props) => {
   const orderId = +route.params.orderId;
   const dispatch = useDispatch<AppDispatch>();
   const feedback = useAppSelector((state) => state.list.feedback);
@@ -26,12 +25,18 @@ const OrderEvaluation = ({ route }: Props) => {
   }
 
   const buttonPut = async () => {
-    await updateOrder(orderId, {
-      grade: grade,
-      feedback: feedback,
-    });
-    dispatch(getOrders());
+    dispatch(
+      putFeedback({
+        id: orderId,
+        body: {
+          grade: grade,
+          feedback: feedback,
+        },
+      })
+    );
     dispatch(clearFeedback());
+    dispatch(getOrders());
+    navigation.navigate('OrderList');
   };
 
   const gradeHandle = (item: number) => {
@@ -39,17 +44,30 @@ const OrderEvaluation = ({ route }: Props) => {
   };
 
   return (
-    <View style={{ alignItems: 'center', padding: 15 }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 15 }}> {title} </Text>
+    <View style={styles.view}>
+      <Text style={styles.text}> {title} </Text>
       <Stars gradeHandler={gradeHandle} grade={grade} size={50} />
       {grade && (
-        <>
+        <View style={{ flex: 1 }}>
           <List grade={grade} />
-          <Button onPress={buttonPut} title="Отправить" color="#ffba00" />
-        </>
+          <Button onPress={buttonPut} title={'Отправить'} color="#ffba00" />
+        </View>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {
+    alignItems: 'center',
+    padding: 15,
+    flex: 1,
+  },
+  text: {
+    ontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+});
 
 export default OrderEvaluation;

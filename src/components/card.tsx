@@ -5,7 +5,7 @@ import Stars from './stars';
 
 const Card = ({ avatar, order, info, id, grade }: Data) => {
   return (
-    <View key={id} style={{ flexDirection: 'row', width: 270 }}>
+    <View key={id} style={{ flexDirection: 'row', width: '100%' }}>
       <Image
         style={{ width: 150, height: 150, marginRight: 10 }}
         source={{
@@ -15,7 +15,7 @@ const Card = ({ avatar, order, info, id, grade }: Data) => {
       <View style={{ flexDirection: 'column' }}>
         <Text>{order}</Text>
         <Text>{info}</Text>
-        {grade && <Stars grade={grade} size={20} />}
+        {grade && <Stars gradeHandler={() => {}} grade={grade} size={20} />}
       </View>
     </View>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import { AppDispatch, useAppSelector } from '../store/store';
+import { AppDispatch } from '../store/store';
 import { setFeedback } from '../store/reducers/listSlice';
 
 interface CheckboxProps {
@@ -11,7 +11,6 @@ interface CheckboxProps {
 
 const CheckBox = ({ grade, label }: CheckboxProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const feedback = useAppSelector((state) => state.list.feedback);
 
   const [checked, setChecked] = useState(false);
 
@@ -24,7 +23,6 @@ const CheckBox = ({ grade, label }: CheckboxProps) => {
     if (!checked) {
       dispatch(setFeedback(label));
     }
-    console.log(feedback);
   };
 
   return (
